@@ -1,0 +1,12 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/src/app/page": [
+      "static/media/Vazirmatn_Regular-s.p.343pjnmabkma_.ttf",
+      "static/media/Vazirmatn_Medium-s.p.0xn5vfsnllo--.ttf",
+      "static/media/Vazirmatn_Bold-s.p.00y73n5tafpqq.ttf"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}
