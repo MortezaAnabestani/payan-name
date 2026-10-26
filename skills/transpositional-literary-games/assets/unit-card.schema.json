@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:transpositional-literary-games:unit-card:3",
+  "title": "Transpositional Literary Game Unit Card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "source_units",
+    "source_evidence",
+    "dominance",
+    "equivalence",
+    "techniques",
+    "narrative",
+    "game",
+    "domains",
+    "free_space",
+    "untranslatability",
+    "acceptance",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_units": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "source_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "location", "context"],
+      "properties": {
+        "quote": { "type": "string", "minLength": 1 },
+        "location": { "type": "string", "minLength": 1 },
+        "context": { "type": "string", "minLength": 1 }
+      }
+    },
+    "dominance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_dominance",
+        "source_protocol",
+        "intervention",
+        "de_dominance_function",
+        "suspension"
+      ],
+      "properties": {
+        "source_dominance": { "type": "string", "minLength": 1 },
+        "source_protocol": { "type": "string", "minLength": 1 },
+        "intervention": { "type": "string", "minLength": 1 },
+        "de_dominance_function": { "type": "string", "minLength": 1 },
+        "suspension": { "type": "string", "minLength": 1 }
+      }
+    },
+    "equivalence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["print", "computer", "shared_function"],
+      "properties": {
+        "print": { "type": "string", "minLength": 1 },
+        "computer": { "type": "string", "minLength": 1 },
+        "shared_function": { "type": "string", "minLength": 1 }
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "smoothness",
+          "discontinuity",
+          "magic_circle",
+          "duality",
+          "transferable_core",
+          "meta_limited"
+        ]
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function", "characters", "space", "information"],
+      "properties": {
+        "function": { "type": "string", "minLength": 1 },
+        "characters": { "type": "string" },
+        "space": { "type": "string" },
+        "information": { "type": "string" }
+      }
+    },
+    "game": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verb", "goal", "obstacle", "failure", "choice", "consequence", "feedback"],
+      "properties": {
+        "verb": { "type": "string", "minLength": 1 },
+        "goal": { "type": "string", "minLength": 1 },
+        "obstacle": { "type": "string", "minLength": 1 },
+        "failure": { "type": "string", "minLength": 1 },
+        "choice": { "type": "string", "minLength": 1 },
+        "consequence": { "type": "string", "minLength": 1 },
+        "feedback": { "type": "string", "minLength": 1 }
+      }
+    },
+    "domains": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "game_design",
+        "technical",
+        "ai",
+        "art",
+        "ui_ux",
+        "audio",
+        "story_content"
+      ],
+      "properties": {
+        "game_design": { "$ref": "#/$defs/domainDecision" },
+        "technical": { "$ref": "#/$defs/domainDecision" },
+        "ai": { "$ref": "#/$defs/domainDecision" },
+        "art": { "$ref": "#/$defs/domainDecision" },
+        "ui_ux": { "$ref": "#/$defs/domainDecision" },
+        "audio": { "$ref": "#/$defs/domainDecision" },
+        "story_content": { "$ref": "#/$defs/domainDecision" }
+      }
+    },
+    "free_space": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question", "decision", "reason"],
+        "properties": {
+          "question": { "type": "string", "minLength": 1 },
+          "decision": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "untranslatability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item", "why", "replacement", "loss"],
+      "properties": {
+        "item": { "type": "string", "minLength": 1 },
+        "why": { "type": "string", "minLength": 1 },
+        "replacement": { "type": "string", "minLength": 1 },
+        "loss": { "type": "string", "minLength": 1 }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "criteria", "status"],
+      "properties": {
+        "evidence": { "type": "string" },
+        "criteria": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "string",
+          "enum": ["unverified", "pass", "fail", "partial"]
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "paper", "built", "playtested", "final", "untranslatable"]
+    },
+    "notes": { "type": "string" }
+  },
+  "$defs": {
+    "domainDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["thesis", "artifact", "removal_test"],
+      "properties": {
+        "thesis": { "type": "string", "minLength": 1 },
+        "artifact": { "type": "string", "minLength": 1 },
+        "removal_test": { "type": "string", "minLength": 1 },
+        "na_reason": { "type": "string" }
+      }
+    }
+  }
+}
