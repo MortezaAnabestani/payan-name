@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-text-size="md" data-motion="full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#120f0e">
+  <meta name="description" content="سه قطره خون؛ یک بازی ادبی تراگشتی بر اساس داستان کوتاه صادق هدایت. پرونده‌ای برای نوشتن، پاک‌شدن، جابه‌جایی صدا و امضا کردن.">
+  <title>سه قطره خون | بازی ادبی تراگشتی</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-scene="cover">
+  <a class="skip-link" href="#sceneRoot">رفتن به متن بازی</a>
+
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-drop" viewBox="0 0 24 24">
+      <path d="M12 2.4S5.4 10.5 5.4 15.1a6.6 6.6 0 0 0 13.2 0C18.6 10.5 12 2.4 12 2.4Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-mark" viewBox="0 0 32 32">
+      <path d="M16 3S7.4 13.5 7.4 19.8a8.6 8.6 0 0 0 17.2 0C24.6 13.5 16 3 16 3Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M12.2 20.2c.2 2.4 1.9 4.1 4.3 4.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><use href="#icon-mark"></use></svg>
+      </span>
+      <span class="brand-text">
+        <strong>سه قطره خون</strong>
+        <small>بایگان / پروندهٔ ناتمام</small>
+      </span>
+    </div>
+    <div class="topbar-actions">
+      <span id="progressLabel" class="progress-label">پرونده ۰/۳</span>
+      <button id="archiveBtn" class="icon-btn" type="button" aria-controls="archiveDrawer" aria-expanded="false">بایگان</button>
+      <button id="settingsBtn" class="icon-btn" type="button">تنظیمات</button>
+    </div>
+  </header>
+
+  <main id="sceneRoot" class="scene-root" tabindex="-1">
+    <section class="scene scene--cover" data-scene="cover" aria-labelledby="coverTitle">
+      <div class="cover-grid">
+        <div class="cover-copy">
+          <p class="eyebrow">بازی ادبی تراگشتی / نسخهٔ بازسازی‌شده</p>
+          <h1 id="coverTitle" tabindex="-1"><span>سه</span> قطره خون</h1>
+          <p class="cover-kicker">یک پرونده برای نوشتن، پاک‌شدن، جابه‌جایی صدا و امضا کردن</p>
+          <p class="lede">
+            تو در آسایشگاه هستی. کاغذ و قلم به تو داده‌اند. هر چه بنویسی ثبت می‌شود؛
+            اما بایگان همهٔ آن را نمی‌خواند: تنها «سه قطره خون» را می‌خواند و صدا را عوض می‌کند.
+          </p>
+          <div class="cover-actions">
+            <button id="startBtn" class="btn btn--primary" type="button">شروع پرونده</button>
+            <button id="aboutBtn" class="btn btn--ghost" type="button">دربارهٔ اثر</button>
+          </div>
+          <p class="content-note">
+            این اثر به آسایشگاه، خشونت و فروپاشی روانی اشاره دارد.
+          </p>
+        </div>
+
+        <div class="cover-art" aria-hidden="true">
+          <div class="loose-paper">
+            <span class="paper-label">برگهٔ ۱ / ثبت</span>
+            <p class="scrawl">از دیروز تا حالا هر چه فکر می‌کنم چیزی ندارم که بنویسم.</p>
+            <p class="motif">سه قطره خون.</p>
+            <div class="drops">
+              <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+              <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+              <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+            </div>
+            <span class="paper-folio">۱</span>
+          </div>
+          <div class="cover-caption">
+            <span>بایگان: «ثبت شد.»</span>
+            <span>خروجی معنادار: ۰</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cover-bottom">
+        <span>بر اساس داستان کوتاه «سه قطره خون» صادق هدایت</span>
+        <span>نسخهٔ بازسازی‌شده / نمونهٔ اعتبارنیافته / ۱۰ تا ۱۵ دقیقه</span>
+      </div>
+    </section>
+
+    <section class="scene scene--write" data-scene="write" aria-labelledby="writeTitle" hidden>
+      <div class="scene-heading">
+        <p class="eyebrow">برگهٔ ۱ / ثبت و استخراج</p>
+        <h2 id="writeTitle" tabindex="-1">چیزی برای نوشتن ندارم</h2>
+        <p class="lede">
+          یک سال است کاغذ و قلم نداشته‌ای. حالا کاغذ مقابل توست. هر چه می‌خواهی بنویس؛
+          بایگان ثبت می‌کند، بیشتر آن را پاک می‌کند و چند واژه را برای پرونده برمی‌دارد.
+          می‌توانی بیشتر از یک بار تلاش کنی، اما کاغذ جای زیادی ندارد.
+        </p>
+      </div>
+
+      <div class="write-layout">
+        <div id="writePaper" class="paper write-paper">
+          <span class="paper-label">بایگان / فرم ثبت</span>
+          <label class="sr-only" for="writeInput">متن خود را بنویسید</label>
+          <textarea id="writeInput" class="write-input" maxlength="1200" rows="8"
+            placeholder="اینجا بنویس..." aria-describedby="writeHint"></textarea>
+          <div id="paperEcho" class="paper-echo" aria-hidden="true"></div>
+          <div id="paperMotif" class="paper-motif" aria-hidden="true">
+            <div class="drops">
+              <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+              <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+              <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+            </div>
+            <span class="motif">سه قطره خون.</span>
+          </div>
+          <div id="paperStatus" class="paper-status" aria-live="polite"></div>
+        </div>
+
+        <aside class="margin-note">
+          <p class="eyebrow">دستور بایگان</p>
+          <p>
+            هر چه می‌نویسی ثبت می‌شود. بایگان تنها چیزی را نگه می‌دارد که خودش بتواند بخواند.
+          </p>
+          <div class="attempt-meter">
+            <span id="attemptCount">۰</span>
+            <small>تلاش ثبت‌شده</small>
+          </div>
+          <div id="extractionStrip" class="extraction-strip" aria-live="polite" hidden></div>
+          <div class="write-actions">
+            <button id="submitWrite" class="btn btn--primary" type="button">ثبت</button>
+            <button id="retryWrite" class="btn btn--ghost" type="button" hidden>یک بار دیگر</button>
+            <button id="continueFromWrite" class="btn btn--ghost" type="button" hidden>رفتن به آسایشگاه</button>
+          </div>
+          <p id="writeHint" class="hint">
+            دست‌کم چند واژه بنویس. بایگان متن کوتاه‌تر را نمی‌خواند.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene scene--hub" data-scene="hub" aria-labelledby="hubTitle" hidden>
+      <div class="scene-heading">
+        <p class="eyebrow">پروندهٔ باز / سه قطره</p>
+        <h2 id="hubTitle" tabindex="-1">سه در، یک زمین</h2>
+        <p class="lede">
+          سه قطره روی زمین چکیده‌اند. هر قطره یک لایه است: صدا، تداوم، فرم.
+          ترتیب مهم نیست؛ هر بار که وارد می‌شوی، بایگان چیزی از پروندهٔ تو را جابه‌جا می‌کند.
+        </p>
+        <p class="protocol-line">
+          <span>۱ / صدا: چه کسی می‌گوید</span>
+          <span>۲ / تداوم: چه چیزی به چه چیزی می‌چسبد</span>
+          <span>۳ / فرم: چه واژه‌ای می‌ماند</span>
+        </p>
+      </div>
+
+      <div class="drop-grid">
+        <button class="drop-card" type="button" data-module="asylum">
+          <span class="drop-icon" aria-hidden="true"><svg class="icon-drop"><use href="#icon-drop"></use></svg></span>
+          <span class="drop-number">قطرهٔ اول</span>
+          <span class="drop-title">آسایشگاه</span>
+          <span class="drop-desc">بایگان هر صدا را یک پله جابه‌جا می‌کند. کدام صدا می‌ماند؟</span>
+          <span class="drop-state" data-state-for="asylum">باز</span>
+        </button>
+        <button class="drop-card" type="button" data-module="memory">
+          <span class="drop-icon" aria-hidden="true"><svg class="icon-drop"><use href="#icon-drop"></use></svg></span>
+          <span class="drop-number">قطرهٔ دوم</span>
+          <span class="drop-title">خاطره</span>
+          <span class="drop-desc">هر پیوند می‌تواند جای خالی داشته باشد. کدام شکاف را باز می‌گذاری؟</span>
+          <span class="drop-state" data-state-for="memory">باز</span>
+        </button>
+        <button class="drop-card" type="button" data-module="song">
+          <span class="drop-icon" aria-hidden="true"><svg class="icon-drop"><use href="#icon-drop"></use></svg></span>
+          <span class="drop-number">قطرهٔ سوم</span>
+          <span class="drop-title">تصنیف</span>
+          <span class="drop-desc">واژه‌های پاک‌شده به تصنیف برمی‌گردند. کدام فرم می‌ماند؟</span>
+          <span class="drop-state" data-state-for="song">باز</span>
+        </button>
+      </div>
+
+      <div class="hub-testimony">
+        <button id="openTestimony" class="btn btn--primary" type="button" disabled>باز کردن شهادتنامه</button>
+        <p id="hubHint" class="hint">برای باز کردن شهادتنامه، هر سه قطره را بگذران.</p>
+        <button id="hubWriteBtn" class="link-btn" type="button">نوشتن دوباره</button>
+      </div>
+    </section>
+
+    <section class="scene scene--module" data-scene="asylum" aria-labelledby="asylumTitle" hidden>
+      <div class="module-head">
+        <button class="btn btn--small btn--ghost" type="button" data-go="hub">بازگشت به سه قطره</button>
+        <span id="asylumProgress" class="module-progress">۱ / ۲</span>
+      </div>
+      <div class="scene-heading">
+        <p class="eyebrow">قطرهٔ اول / آسایشگاه</p>
+        <h2 id="asylumTitle" tabindex="-1">کدام جمله از زبان چه کسی ثبت شود؟</h2>
+        <p class="lede">
+          سه جمله از پرونده را انتخاب کن. بعد هر جمله را به یک صدا نسبت بده.
+          بایگان آن نسبت را یک پله جابه‌جا می‌کند؛ می‌توانی بپذیری یا خودت دوباره نسبت بدهی.
+        </p>
+      </div>
+      <div id="asylumBody" class="module-body"></div>
+    </section>
+
+    <section class="scene scene--module" data-scene="memory" aria-labelledby="memoryTitle" hidden>
+      <div class="module-head">
+        <button class="btn btn--small btn--ghost" type="button" data-go="hub">بازگشت به سه قطره</button>
+        <span id="memoryProgress" class="module-progress">۰ / ۳ جفت</span>
+      </div>
+      <div class="scene-heading">
+        <p class="eyebrow">قطرهٔ دوم / خاطره</p>
+        <h2 id="memoryTitle" tabindex="-1">کدام رویداد را به کدام تفسیر جفت می‌کنی؟</h2>
+        <p class="lede">
+          حافظه، رویدادها را مرتب نمی‌کند؛ آن‌ها را به هم می‌چسباند.
+          یک رویداد و یک تفسیر انتخاب کن. سه جفت برای ثبت این قطره کافی است؛
+          هیچ جفتی «درست» نیست و می‌توانی جای خالی را باز بگذاری.
+        </p>
+      </div>
+      <div id="memoryBody" class="module-body"></div>
+    </section>
+
+    <section class="scene scene--module" data-scene="song" aria-labelledby="songTitle" hidden>
+      <div class="module-head">
+        <button class="btn btn--small btn--ghost" type="button" data-go="hub">بازگشت به سه قطره</button>
+        <span id="songProgress" class="module-progress">دور ۱ / ۳</span>
+      </div>
+      <div class="scene-heading">
+        <p class="eyebrow">قطرهٔ سوم / تصنیف</p>
+        <h2 id="songTitle" tabindex="-1">چه واژه‌ای در تصنیف می‌ماند؟</h2>
+        <p class="lede">
+          تصنیف، رویداد را در فرم نگه می‌دارد. در هر دور یک جای خالی را پر می‌کنی؛
+          بایگان هم واژه‌ای از نوشته‌های پاک‌شدهٔ تو برمی‌دارد و جای دیگری می‌گذارد.
+          هر چه بیشتر اصلاح کنی، واژه‌های بیشتری از تو در فرم می‌مانند.
+        </p>
+      </div>
+      <div id="songBody" class="module-body"></div>
+    </section>
+
+    <section class="scene scene--testimony" data-scene="testimony" aria-labelledby="testimonyTitle" hidden>
+      <div class="module-head">
+        <button class="btn btn--small btn--ghost" type="button" data-go="hub">بازگشت به سه قطره</button>
+        <span class="module-progress">سند / پیش‌نمایش</span>
+      </div>
+      <div class="scene-heading">
+        <p class="eyebrow">پایان / شهادتنامه</p>
+        <h2 id="testimonyTitle" tabindex="-1">سند را امضا می‌کنی یا نه؟</h2>
+        <p class="lede">
+          بایگان از واژه‌هایی که پاک کردی، نسبت‌هایی که اصلاح کردی، جای خالی‌هایی که
+          باز گذاشتی و تصنیفی که تغییر دادی یک سند می‌سازد. می‌توانی حاشیه بنویسی.
+          امضا و امتناع، هر دو ثبت می‌شوند؛ هیچ‌کدام پایان «بهتر» نیست.
+        </p>
+      </div>
+
+      <div class="testimony-layout">
+        <div id="testimonyPreview" class="paper testimony-preview"></div>
+        <aside class="testimony-actions">
+          <p class="eyebrow">نام شاهد</p>
+          <label class="sr-only" for="witnessInput">نام شاهد برای زیر سند</label>
+          <input id="witnessInput" class="text-input" type="text" maxlength="60" placeholder="اختیاری">
+          <p class="hint">این نام فقط زیر همین سند می‌ماند.</p>
+          <label class="field-label" for="noteInput">حاشیهٔ سند <span>اختیاری</span></label>
+          <textarea id="noteInput" class="textarea-input" maxlength="280" rows="4" aria-describedby="noteHint" placeholder="اگر چیزی باید بیرون از سند بماند، اینجا بنویس..."></textarea>
+          <p id="noteHint" class="hint">حاشیه در سند می‌ماند؛ اما در محاسبهٔ فشار پرونده حساب نمی‌شود.</p>
+          <button id="signBtn" class="btn btn--primary" type="button">امضا می‌کنم</button>
+          <button id="refuseBtn" class="btn btn--ghost" type="button">امضا نمی‌کنم</button>
+          <p class="hint">هر دو انتخاب، سند را می‌بندند. هیچ‌کدام پایان «بهتر» نیست.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scene scene--end" data-scene="end" aria-labelledby="endTitle" hidden>
+      <div class="end-wrap">
+        <p class="eyebrow">بایگان / پرونده بسته شد</p>
+        <h2 id="endTitle" tabindex="-1">امضا ثبت شد.</h2>
+        <div id="endStamp" class="stamp">ثبت شد / امضا</div>
+        <p id="endMessage" class="lede"></p>
+        <p id="endPressure" class="end-pressure"></p>
+        <p id="endPoemLine" class="end-poem"></p>
+        <div class="end-motif" aria-hidden="true">
+          <div class="drops">
+            <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+            <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+            <svg class="icon-drop"><use href="#icon-drop"></use></svg>
+          </div>
+          <span class="motif">سه قطره خون.</span>
+        </div>
+        <div class="end-actions">
+          <button id="downloadBtn" class="btn btn--primary" type="button">دریافت سند</button>
+          <button id="endArchiveBtn" class="btn btn--ghost" type="button">باز کردن بایگان</button>
+          <button id="restartBtn" class="btn btn--ghost" type="button">شروع دوباره</button>
+        </div>
+        <button id="endAboutBtn" class="link-btn" type="button">دربارهٔ اثر و حقوق</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>نسخهٔ بازسازی‌شده و اعتبارنیافته. بر اساس داستان کوتاه «سه قطره خون» صادق هدایت.</p>
+    <button id="footerAbout" class="link-btn" type="button">درباره و حقوق</button>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="a11yStatus" class="sr-only" aria-live="polite"></div>
+
+  <div id="drawerOverlay" class="drawer-overlay" hidden></div>
+  <aside id="archiveDrawer" class="drawer" aria-hidden="true" aria-labelledby="archiveTitle">
+    <div class="drawer-head">
+      <div>
+        <p class="eyebrow">بایگان</p>
+        <h2 id="archiveTitle">آرشیو پرونده</h2>
+      </div>
+      <button id="archiveClose" class="dialog-close" type="button" aria-label="بستن آرشیو">×</button>
+    </div>
+    <div class="drawer-body">
+      <section class="archive-section">
+        <h3>نوشته‌های پاک‌شده</h3>
+        <div id="archiveWrites" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>واژه‌های ضبط‌شده</h3>
+        <div id="archiveExtraction" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>انتساب‌ها</h3>
+        <div id="archiveAssignments" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>جفت‌های خاطره</h3>
+        <div id="archivePairs" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>تصنیف</h3>
+        <div id="archiveSong" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>فشار پرونده</h3>
+        <div id="archivePressure" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>حکم</h3>
+        <div id="archiveVerdict" class="archive-list"></div>
+      </section>
+      <section class="archive-section">
+        <h3>قاعدهٔ بایگان</h3>
+        <p class="archive-rule">
+          بایگان صدا را یک پله جابه‌جا می‌کند: من ← سیاوش ← ناظم ← بایگان ← من.
+          جای خالی را پر نمی‌کند؛ آن را به سند منتقل می‌کند. واژه‌های پاک‌شده را
+          در تصنیف جای دیگری می‌گذارد. فشار، نتیجهٔ مقاومت توست، نه امتیاز.
+        </p>
+      </section>
+      <p class="archive-note">
+        این پرونده فقط در همین مرورگر ذخیره شده است. هیچ متنی به سرور فرستاده نمی‌شود.
+      </p>
+    </div>
+  </aside>
+
+  <dialog id="settingsDialog" class="dialog" aria-labelledby="settingsTitle">
+    <form method="dialog" class="dialog-form">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">بایگان / تنظیمات</p>
+          <h2 id="settingsTitle">تنظیمات</h2>
+        </div>
+        <button class="dialog-close" value="close" type="submit" aria-label="بستن تنظیمات">×</button>
+      </div>
+      <div class="settings-list">
+        <label class="settings-row" for="soundToggle">
+          <span>
+            <strong>صدا</strong>
+            <small>جلوه‌های صوتی کوتاه؛ پیش‌فرض خاموش.</small>
+          </span>
+          <input id="soundToggle" type="checkbox">
+        </label>
+        <label class="settings-row" for="textSizeSelect">
+          <span>
+            <strong>اندازهٔ متن</strong>
+            <small>برای خوانایی بهتر.</small>
+          </span>
+          <select id="textSizeSelect" class="select-input">
+            <option value="sm">کوچک</option>
+            <option value="md">متوسط</option>
+            <option value="lg">بزرگ</option>
+          </select>
+        </label>
+        <label class="settings-row" for="motionToggle">
+          <span>
+            <strong>کاهش حرکت</strong>
+            <small>انیمیشن‌ها را کم می‌کند.</small>
+          </span>
+          <input id="motionToggle" type="checkbox">
+        </label>
+      </div>
+      <div class="dialog-note">
+        <p>پروندهٔ تو در حافظهٔ همین مرورگر می‌ماند. با پاک‌کردن پرونده، نوشته‌ها و انتخاب‌ها حذف می‌شوند.</p>
+      </div>
+      <div class="dialog-actions dialog-actions--split">
+        <button id="resetBtn" class="btn btn--danger" type="button">پاک کردن پرونده</button>
+        <div class="dialog-actions">
+          <button id="settingsAboutBtn" class="link-btn" type="button">درباره و حقوق</button>
+          <button class="btn btn--primary" value="close" type="submit">بستن</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="aboutDialog" class="dialog dialog--about" aria-labelledby="aboutTitle">
+    <form method="dialog" class="dialog-form">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">دربارهٔ اثر</p>
+          <h2 id="aboutTitle">سه قطره خون</h2>
+        </div>
+        <button class="dialog-close" value="close" type="submit" aria-label="بستن دربارهٔ اثر">×</button>
+      </div>
+      <div class="about-body">
+        <p>
+          این یک بازی ادبی تراگشتی است: داستان چاپی نه به صحنه‌های قابل‌کلیک،
+          بلکه به یک پروتکل بازی‌پذیر تبدیل می‌شود. تو نه خوانندهٔ ماجرا، بلکه
+          شرکت‌کننده در پروتکلی هستی که روایت را می‌سازد و نقض می‌کند.
+        </p>
+        <h3>زنجیرهٔ هم‌ارزی</h3>
+        <p>
+          در چاپ، شهادتِ راوی با قاب نهاد آسایشگاه و پیرامتنِ کتاب به سندی قابل‌اعتماد
+          بدل می‌شود. در این بازسازی، همان کارکرد به رابط سپرده شده است: تو می‌نویسی،
+          بایگان متن را پاک می‌کند و چند واژه برمی‌دارد، صداها را جابه‌جا می‌کند،
+          جای خالی را به سند منتقل می‌کند و تصنیف را با واژه‌های پاک‌شده تغییر می‌دهد.
+          ادعا این نیست که نسخهٔ دیجیتال «همان» داستان است؛ ادعا این است که
+          عملیاتِ شهادت‌شدن در هر دو رسانه قابل تجربه است.
+        </p>
+        <h3>قاعدهٔ بایگان</h3>
+        <p>
+          بایگان هر صدا را یک پله جابه‌جا می‌کند. هر اصلاح صدا، جای خالی،
+          بازنویسی نوشته و تغییر تصنیف، فشار پرونده را بالا می‌برد و بر
+          افزودهٔ بایگان در سند اثر می‌گذارد. فشار امتیاز نیست؛ نشانهٔ لرزش
+          سند است. هیچ پایانی «برنده» ندارد و امضا و امتناع هر دو ناقص‌اند.
+        </p>
+        <h3>منبع</h3>
+        <p>
+          بر اساس داستان کوتاه «سه قطره خون» صادق هدایت. متن در این اثر به تکه‌های کوتاه
+          تجزیه شده و در رابط بازی بازآرایی می‌شود. نقل‌قول‌ها برای بافت پژوهش حفظ شده‌اند.
+        </p>
+        <h3>هشدار محتوا</h3>
+        <p>
+          آسایشگاه، خشونت، مرگ جانوران، فروپاشی روانی و بی‌اعتمادی به روایت.
+          اگر این موضوع‌ها برایت آزاردهنده‌اند، بازی را ادامه نده.
+        </p>
+        <h3>فضای آزاد</h3>
+        <p>
+          هیچ جفت «درست» و هیچ صدای «اصلی» وجود ندارد. انتخاب سه جمله، پذیرش یا
+          اصلاح جابه‌جایی صدا، بازگذاشتن جای خالی، تغییر واژه‌های تصنیف و امضا یا
+          امتناع، همه در سند و فشار پرونده اثر می‌گذارند؛ اما هیچ‌کدام پایان
+          «بهتر» نمی‌سازند.
+        </p>
+        <h3>وضعیت</h3>
+        <p>
+          این یک برش عمودی و نمونهٔ اعتبارنیافته است. مکانیک‌ها با پلی‌تست واقعی
+          سنجیده نشده‌اند. بازخورد دربارهٔ اینکه اصطکاک «معنادار» به نظر می‌رسد
+          یا «باگ»، بخشی از اثر است. این نسخه بر مبنای الگوی تراگشتی و ماتریس
+          تمهیدها بازسازی شده، اما اعتبار ادبی آن هنوز آزمون تجربی نشده است.
+        </p>
+        <h3>حقوق</h3>
+        <p>
+          وضعیت حقوق منبع برای انتشار تجاری باید جداگانه بررسی شود. این نسخه
+          برای پژوهش و نمایش نمونه ساخته شده است.
+        </p>
+        <h3>دسترسی</h3>
+        <p>
+          رابط با کیبورد کار می‌کند. صدا پیش‌فرض خاموش است. اندازهٔ متن و کاهش حرکت
+          در تنظیمات قابل تغییر است.
+        </p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn btn--primary" value="close" type="submit">بستن</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
