@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07131f">
+  <title>باغِ سه قطره</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="stage" aria-label="باغ سه قطره">
+    <canvas id="game" width="1280" height="720" aria-label="صحنهٔ بازی"></canvas>
+
+    <div id="hud" class="hud hidden" aria-live="polite">
+      <div class="hud-top">
+        <div class="hud-objective">
+          <span class="eyebrow">شهادت</span>
+          <strong id="objective">سه ایستگاه را پیدا کن</strong>
+        </div>
+        <div id="stations" class="stations" aria-label="ایستگاه‌ها">
+          <span class="station-dot" data-station="pine" title="کاج">۱</span>
+          <span class="station-dot" data-station="wall" title="قفس">۲</span>
+          <span class="station-dot" data-station="door" title="در آبی">۳</span>
+          <span class="station-dot final" data-station="final" title="بازگشت">◆</span>
+        </div>
+      </div>
+      <div class="hud-bottom">
+        <div class="meter-block">
+          <span class="meter-label">هوشیاری</span>
+          <div class="meter"><i id="lucidity-bar"></i></div>
+        </div>
+        <div id="suspicion-wrap" class="meter-block danger hidden">
+          <span class="meter-label">نگاه ناظم</span>
+          <div class="meter"><i id="suspicion-bar"></i></div>
+        </div>
+        <div class="hint-keys">
+          <span><b>L</b> نور</span>
+          <span><b>H</b> شنیدن</span>
+          <span><b>E</b> تعامل</span>
+          <span><b>C</b> خمیدن</span>
+          <span><b>J</b> ژورنال</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="prompt" class="prompt hidden" role="status"></div>
+    <div id="toast" class="toast hidden" role="status"></div>
+
+    <section id="menu" class="modal">
+      <div class="card menu-card">
+        <div class="ornament">سه قطره</div>
+        <h1>باغِ سه قطره</h1>
+        <p class="subtitle">یک تراگشت تعاملی از «سه قطره خون» صادق هدایت</p>
+        <p class="warning">هشدار محتوا: بیماری روانی، خشونت، خون، مرگ حیوان، خودآسیبی و قضاوت اجتماعی. نمایش صریح نداریم.</p>
+        <div class="menu-actions">
+          <button id="start-btn" class="primary">شروع شب</button>
+          <button id="continue-btn" class="secondary hidden">ادامهٔ شب</button>
+        </div>
+        <p class="micro">هدف: سه شهادت، یک انتخاب. زمان تقریبی: ۱۵–۳۰ دقیقه.</p>
+        <p class="micro">این برش عمودی است؛ اعتبارسنجی انسانی آن هنوز انجام نشده.</p>
+      </div>
+    </section>
+
+    <section id="intro" class="modal hidden">
+      <div class="card intro-card">
+        <div class="ornament">شب اول</div>
+        <p id="intro-text" class="narration"></p>
+        <button id="intro-btn" class="primary">بیدار شو</button>
+      </div>
+    </section>
+
+    <section id="choice" class="modal hidden">
+      <div class="card choice-card">
+        <div class="ornament" id="choice-kicker">شهادت</div>
+        <h2 id="choice-title"></h2>
+        <p id="choice-echo" class="echo"></p>
+        <p id="choice-question" class="question"></p>
+        <div id="choice-options" class="choice-options"></div>
+        <p class="micro">هر انتخاب، باغ را تغییر می‌دهد. بازگشت نیست.</p>
+      </div>
+    </section>
+
+    <section id="note" class="modal hidden">
+      <div class="card note-card">
+        <div class="ornament" id="note-kicker">پژواک</div>
+        <p id="note-text" class="narration"></p>
+        <button id="note-btn" class="primary">بستن</button>
+      </div>
+    </section>
+
+    <section id="journal" class="modal hidden">
+      <div class="card journal-card">
+        <div class="ornament">ژورنال</div>
+        <h2>سه شهادت</h2>
+        <div class="journal-grid">
+          <article>
+            <span class="eyebrow">کاج</span>
+            <p id="journal-pine">ثبت نشده.</p>
+          </article>
+          <article>
+            <span class="eyebrow">قفس</span>
+            <p id="journal-wall">ثبت نشده.</p>
+          </article>
+          <article>
+            <span class="eyebrow">در آبی</span>
+            <p id="journal-door">ثبت نشده.</p>
+          </article>
+        </div>
+        <p id="journal-final" class="final-truth"></p>
+        <button id="journal-btn" class="primary">بازگشت به باغ</button>
+      </div>
+    </section>
+
+    <section id="pause" class="modal hidden">
+      <div class="card pause-card">
+        <div class="ornament">توقف</div>
+        <h2>باغ منتظر است.</h2>
+        <div class="pause-actions">
+          <button id="resume-btn" class="primary">ادامه</button>
+          <button id="pause-journal-btn" class="secondary">ژورنال</button>
+          <button id="mute-btn" class="secondary">صدا: روشن</button>
+          <button id="restart-btn" class="secondary">شروع دوباره</button>
+        </div>
+        <p class="micro">Esc برای بازگشت. تغییرات در هر قطره ذخیره می‌شود.</p>
+      </div>
+    </section>
+
+    <section id="ending" class="modal hidden">
+      <div class="card ending-card">
+        <div class="ornament" id="ending-kicker">پایان</div>
+        <h2 id="ending-title"></h2>
+        <p id="ending-text" class="narration"></p>
+        <p id="ending-stats" class="micro"></p>
+        <div class="menu-actions">
+          <button id="ending-restart-btn" class="primary">شروع دوباره</button>
+          <button id="ending-menu-btn" class="secondary">بازگشت به منو</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="rotate" class="rotate-overlay" aria-live="polite">
+      <div class="rotate-card">
+        <div class="rotate-icon">↻</div>
+        <h2>باغ را افقی ببین</h2>
+        <p>برای دیدن کامل باغ، گوشی را بچرخان. اگر نمی‌توانی، در همین حالت هم می‌توانی ادامه بدهی.</p>
+        <button id="rotate-btn" class="secondary">ادامه در همین حالت</button>
+      </div>
+    </section>
+
+    <div id="mobile-controls" class="mobile-controls" aria-label="کنترل لمسی">
+      <div class="dpad">
+        <button data-move="up" aria-label="بالا">↑</button>
+        <button data-move="left" aria-label="چپ">←</button>
+        <button data-move="down" aria-label="پایین">↓</button>
+        <button data-move="right" aria-label="راست">→</button>
+      </div>
+      <div class="actions">
+        <button data-action="lantern" aria-label="نور">نور</button>
+        <button data-action="listen" aria-label="شنیدن">شنیدن</button>
+        <button data-action="interact" aria-label="تعامل">تعامل</button>
+        <button data-action="crouch" aria-label="خمیدن">خم</button>
+      </div>
+    </div>
+  </main>
+
+  <noscript>برای اجرای این اثر باید JavaScript فعال باشد.</noscript>
+  <script src="core.js"></script>
+  <script src="audio.js"></script>
+  <script src="game.js"></script>
+  <script src="render.js"></script>
+</body>
+</html>
