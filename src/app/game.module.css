@@ -666,10 +666,6 @@
   animation: nibGlint 3.8s ease-in-out infinite;
 }
 
-.penInvite .penLabel {
-  color: rgba(241, 231, 212, 0.72);
-}
-
 @keyframes nibGlint {
   0%,
   100% {
@@ -702,12 +698,6 @@
   background: linear-gradient(90deg, #e0c084, #7b5c30);
   filter: drop-shadow(0 0 4px rgba(224, 192, 132, 0.35));
   clip-path: polygon(0 0, 100% 50%, 0 100%);
-}
-
-.penLabel {
-  color: rgba(241, 231, 212, 0.68);
-  font-size: 10px;
-  letter-spacing: 0.06em;
 }
 
 .crumpleFlash {
@@ -849,13 +839,32 @@
   line-height: 1.6;
 }
 
-.objectKey {
-  color: rgba(241, 231, 212, 0.32);
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  border: 1px solid rgba(241, 231, 212, 0.16);
-  border-radius: 2px;
-  padding: 1px 4px;
+/* خط‌زدن بدنی روی کاغذ — جوِ کشیده‌شده، نه استایل وب */
+.scratchLine {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.scratchLine path {
+  fill: none;
+  stroke: rgba(37, 30, 22, 0.78);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  animation: scratchDraw 260ms ease-out both;
+}
+
+@keyframes scratchDraw {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .stand {
