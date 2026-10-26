@@ -370,7 +370,6 @@ export function NoiseScene({
             >
               <span className={styles.notebookGlyph} aria-hidden="true" />
               <span className={styles.objectLabel}>{U2_SCENE.captureAct}</span>
-              <span className={styles.objectKey}>K</span>
             </button>
           ) : null}
         </div>

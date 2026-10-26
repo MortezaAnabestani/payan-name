@@ -152,9 +152,11 @@ describe("U3 ward cycle", () => {
     const resolved = reduceEvent(full, commands.resolveWard(at(99)));
     expect(resolved.phase).toBe("u3Resolved");
 
-    const boundary = reduceEvent(resolved, commands.acknowledgeBoundary(at(100)));
-    expect(boundary.phase).toBe("boundary");
-    expect(reduceEvent(boundary, commands.acknowledgeBoundary(at(101)))).toBe(boundary);
+    // دروازه از u3Resolved بسته است؛ گذار U3→U4 از طریق صف شام می‌گذرد.
+    expect(reduceEvent(resolved, commands.acknowledgeBoundary(at(100)))).toBe(resolved);
+    const queued = reduceEvent(resolved, commands.joinQueue(at(100)));
+    expect(queued.phase).toBe("queue");
+    expect(queued.unit).toBe("U4");
   });
 
   it("lets missed stations be visited after the cycle ends", () => {
@@ -194,7 +196,13 @@ describe("U3 ward cycle", () => {
       ...walk,
       ...walk,
       commands.resolveWard(at(150)),
-      commands.acknowledgeBoundary(at(151)),
+      commands.joinQueue(at(151)),
+      commands.openMenu(at(152)),
+      commands.pickDish("ash", at(153)),
+      commands.pickDish("chelo", at(154)),
+      commands.offerTray(at(155)),
+      commands.takeTray(at(156)),
+      commands.acknowledgeBoundary(at(157)),
     ];
 
     const initial = createInitialState("session-1", T0);

@@ -130,7 +130,7 @@
 | لایه | وضعیت |
 |---|---|
 | `domain/session/` | فازهای `u1Resolved/noise/u2Resolved/boundary`؛ `unit`، `motifOwner`، `u2.surfaced`؛ پنج رخداد U2؛ کلید/نسخهٔ جدید ذخیره |
-| `content/` | `u2.ts` (تعریف + رشته‌های بازیکن‌رو + پل‌ها + دو پایان)؛ `units.ts` (رجیستری G1+U1–U9؛ U3–U9 فقط دادهٔ تعریف) |
+| `content/` | `u2.ts` (تعریف + رشته‌های بازیکن‌رو + پل‌ها + دو پایان)؛ `units.ts` (رجیستری G1+U1–U9؛ در زمان این سند U3–U9 فقط دادهٔ تعریف — بعداً U3 نیز پرمحتوا شد) |
 | `ui/game/scene/noise.ts` | موتور خالص: `createField/wipe/regenerate/readability/isBlank/surfacedCountFor/candidatePoints/placeMotif/strokeFromCursor` + `U2_CONFIG` |
 | `ui/game/components/` | `NoiseScene` (بوم/برس/دفترچه)؛ `EndingScene` (+پل/ادامه)؛ `U2ResolutionScene`؛ `BoundaryScene`؛ `ArchiveSheet` (+منبع U2 و وضعیت سه قطره خون) |
 | `adapters/audio` | `brush/dust/surface` |
@@ -164,7 +164,7 @@
 | صدا | `brush/dust/surface` + room tone؛ بدون ناظم | lint/build؛ آزمون حذف در پلی‌تست می‌ماند |
 | دسترسی | کاغذ فوکوس‌پذیر، راهنمای srOnly، `aria-keyshortcuts`، `K` برای ثبت | آزمون کلیدها + بازبینی کد |
 | بازپخش قطعی | رخدادهای U2 در replay بدون تصادف؛ موقعیت ظهورها در رخداد | آزمون بازپخش کامل U1–U2 |
-| ساخت | `npm.cmd run test` (۶۶ موفق در ۹ فایل)، `npm.cmd run lint` (بی‌خطا)، `npm.cmd run build` (موفق)؛ SSR صفحه بدون خطا (`__next_error__` غایب) | ۲۰۲۶-۱۰-۲۶ |
+| ساخت | `npm.cmd run test` (۶۶ موفق در ۹ فایل)، `npm.cmd run lint` (بی‌خطا)، `npm.cmd run build` (موفق)؛ SSR صفحه بدون خطا (`__next_error__` غایب) | ۲۰۲۶-۱۰-۲۶ — ۲۰۲۶-۱۰-۲۷: اکنون ۸۲ آزمون در ۱۱ فایل (افزوده: `u3-session`)؛ بیلد و `tsc --noEmit` موفق؛ لینت ۱۲ خطای از پیش موجود در اسکریپت‌های `transposition-three-drops/playtest/` (خارج از `src/`) دارد که باید جدا رسیدگی شود |
 
 **انحراف‌های ثبت‌شده از طرح:**
 

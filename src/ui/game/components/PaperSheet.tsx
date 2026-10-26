@@ -7,6 +7,7 @@ import {
   useState,
   type ChangeEvent,
   type KeyboardEvent,
+  type PointerEvent as ReactPointerEvent,
 } from "react";
 import styles from "@/app/game.module.css";
 import { isMotifTyped } from "@/domain/session/reducer";
@@ -32,6 +33,8 @@ export function PaperSheet({
   const lastAttempt = state.attempts.at(-1);
   const [text, setText] = useState("");
   const [decayed, setDecayed] = useState(false);
+  const [scratched, setScratched] = useState(false);
+  const scratchRef = useRef<{ x: number; y: number } | null>(null);
   const [flash, setFlash] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -81,6 +84,7 @@ export function PaperSheet({
     const next = event.target.value;
     setText(next);
     setDecayed(false);
+    setScratched(false);
     onScratch();
     if (timerRef.current) window.clearTimeout(timerRef.current);
     if (!next.trim()) {
@@ -104,6 +108,52 @@ export function PaperSheet({
     if (isPenLiftKey(event)) {
       event.preventDefault();
       submit();
+      return;
+    }
+    // خط‌زدن با کیبورد: Ctrl/⌘+Backspace روی سطرِ فعال
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key === "Backspace" &&
+      !locked &&
+      text.trim()
+    ) {
+      event.preventDefault();
+      setScratched(true);
+      onScratch();
+    }
+  }
+
+  /** خط‌زدن بدنی: کشیدن افقی ماوس/انگشت روی خودِ کاغذ */
+  const scratchGeometry = (() => {
+    if (!scratched) return null;
+    const start = scratchRef.current;
+    if (!start) return null;
+    const from = Math.min(start.x, 100 - start.x);
+    const to = Math.max(start.x, 100 - start.x);
+    return { top: start.y, from, to };
+  })();
+
+  function handlePaperPointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if (locked) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    scratchRef.current = {
+      x: ((event.clientX - rect.left) / rect.width) * 100,
+      y: ((event.clientY - rect.top) / rect.height) * 100,
+    };
+  }
+
+  function handlePaperPointerUp(event: React.PointerEvent<HTMLDivElement>) {
+    if (locked || !scratchRef.current) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const start = scratchRef.current;
+    const dx = Math.abs((event.clientX - rect.left) / rect.width * 100 - start.x);
+    const dy = Math.abs((event.clientY - rect.top) / rect.height * 100 - start.y);
+    scratchRef.current = null;
+    // حرکت افقی بلند روی کاغذِ نوشته‌شده = خط زدن؛ وگرنه فقط فوکوس بوده
+    if (dx > 22 && dy < 9 && text.trim()) {
+      setScratched(true);
+      onScratch();
+      textareaRef.current?.focus();
     }
   }
 
@@ -115,7 +165,9 @@ export function PaperSheet({
         }`}
         onPointerDown={(event) => {
           if (event.target === event.currentTarget) textareaRef.current?.focus();
+          handlePaperPointerDown(event);
         }}
+        onPointerUp={handlePaperPointerUp}
       >
         <SceneCanvas
           className={styles.paperCanvas}
@@ -163,6 +215,22 @@ export function PaperSheet({
         </div>
 
         <span className={styles.paperEdge} aria-hidden="true" />
+
+        {scratched && !showDecay ? (
+          <svg
+            className={styles.scratchLine}
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d={`M ${scratchGeometry?.from ?? 6} ${scratchGeometry?.top ?? 34}
+                  C ${((scratchGeometry?.from ?? 6) + (scratchGeometry?.to ?? 94)) / 2} ${(scratchGeometry?.top ?? 34) - 2.5},
+                    ${((scratchGeometry?.from ?? 6) + (scratchGeometry?.to ?? 94)) / 2} ${(scratchGeometry?.top ?? 34) + 2.5},
+                    ${scratchGeometry?.to ?? 94} ${scratchGeometry?.top ?? 34}`}
+            />
+          </svg>
+        ) : null}
       </div>
 
       {flash ? (
@@ -181,11 +249,12 @@ export function PaperSheet({
       >
         <span className={styles.penBody} aria-hidden="true" />
         <span className={styles.penNib} aria-hidden="true" />
-        <span className={styles.penLabel}>قلم</span>
       </button>
 
       <p id="paper-hint" className={styles.srOnly}>
-        روی کاغذ بنویس. برای زمین گذاشتن قلم، کنترل و اینتر را بزن.
+        روی کاغذ بنویس. برای خط‌زدن، ماوس یا انگشت را افقی روی نوشته بکش (یا
+        کنترل و بک‌اسپیس). برای زمین گذاشتن قلم و ثبت برگه، کنترل و اینتر را
+        بزن.
       </p>
 
       <div className={styles.crumplePile} aria-hidden="true" data-count={attemptLevel}>

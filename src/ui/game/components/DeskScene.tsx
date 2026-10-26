@@ -107,7 +107,6 @@ export function DeskScene({
                   ) + 0.25}
                 />
                 <span className={styles.objectLabel}>سه قطره را نگه می‌دارم</span>
-                <span className={styles.objectKey}>K</span>
               </button>
               <button
                 type="button"
@@ -122,7 +121,6 @@ export function DeskScene({
                 <span className={styles.objectLabel}>
                   قلم را روی قلم‌دان می‌گذارم
                 </span>
-                <span className={styles.objectKey}>Esc</span>
               </button>
             </div>
           </div>

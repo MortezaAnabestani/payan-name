@@ -2,6 +2,7 @@ import styles from "@/app/game.module.css";
 import { U1 } from "@/content/u1";
 import { MOTIF_STATE_LINE, U2 } from "@/content/u2";
 import { U3, claimLineFor } from "@/content/u3";
+import { DISH_CONTENT, U4, trayLineFor } from "@/content/u4";
 import { claimStageFor } from "@/domain/session/reducer";
 import type { GameState, Settings } from "@/domain/session/types";
 import { Modal } from "./Modal";
@@ -23,9 +24,29 @@ export function ArchiveSheet({
     state.phase === "noise" ||
     state.phase === "u2Resolved" ||
     state.phase === "boundary";
-  const u2Seen = state.phase === "u2Resolved" || state.phase === "boundary";
-  const u3Seen = state.phase === "u3Resolved" || state.phase === "boundary";
+  const u2Seen =
+    state.phase === "u2Resolved" ||
+    state.phase === "ward" ||
+    state.phase === "u3Resolved" ||
+    state.phase === "queue" ||
+    state.phase === "menu" ||
+    state.phase === "tray" ||
+    state.phase === "u4Resolved" ||
+    state.phase === "boundary";
+  const u3Seen =
+    state.phase === "u3Resolved" ||
+    state.phase === "queue" ||
+    state.phase === "menu" ||
+    state.phase === "tray" ||
+    state.phase === "u4Resolved" ||
+    state.phase === "boundary";
   const wardSeen = state.phase === "ward" || u3Seen;
+  const u4Seen =
+    state.phase === "queue" ||
+    state.phase === "menu" ||
+    state.phase === "tray" ||
+    state.phase === "u4Resolved" ||
+    state.phase === "boundary";
 
   return (
     <Modal title="پشت جلد" onClose={onClose}>
@@ -73,6 +94,14 @@ export function ArchiveSheet({
             </blockquote>
           </>
         ) : null}
+        {u4Seen ? (
+          <>
+            <p className={styles.archiveMeta}>
+              سطر {U4.source.lines}، جمله‌های {U4.source.sentences}.
+            </p>
+            <blockquote className={styles.archiveQuote}>{U4.source.quote}</blockquote>
+          </>
+        ) : null}
         {u1Seen ? (
           <p className={styles.archiveMeta}>
             {MOTIF_STATE_LINE[state.motifOwner]}
@@ -81,6 +110,14 @@ export function ArchiveSheet({
         {wardSeen ? (
           <p className={styles.archiveMeta}>
             {claimLineFor(claimStageFor(state.u3.sameActs))}
+          </p>
+        ) : null}
+        {u4Seen ? (
+          <p className={styles.archiveMeta}>
+            {trayLineFor(state.u4.picks, state.u4.done)}{" "}
+            {state.u4.chosen.length > 0
+              ? `برداشتی: ${state.u4.chosen.map((d) => DISH_CONTENT[d].label).join("، ")}.`
+              : ""}
           </p>
         ) : null}
       </section>

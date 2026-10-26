@@ -20,11 +20,16 @@ export function Prologue({ onBegin }: { onBegin: () => void }) {
         ))}
         <button
           type="button"
-          className={styles.prologueAction}
+          className={styles.prologueSit}
           onClick={onBegin}
           style={{ animationDelay: `${PROLOGUE_LINES.length * 520}ms` }}
+          aria-label="چهارپایه را بکش و پشت میز بنشین"
         >
-          پشت میز می‌نشینم
+          <span className={styles.sitStool} aria-hidden="true">
+            <span className={styles.sitStoolTop} />
+            <span className={styles.sitStoolLegA} />
+            <span className={styles.sitStoolLegB} />
+          </span>
         </button>
       </div>
     </section>
