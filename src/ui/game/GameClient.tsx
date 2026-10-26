@@ -17,10 +17,12 @@ import { AudioEngine } from "@/adapters/audio/audio-engine";
 import { commands } from "@/application/commands";
 import { ENDINGS } from "@/content/u1";
 import { U2_SCENE } from "@/content/u2";
+import { U4_RESOLUTION, trayLineFor } from "@/content/u4";
 import { WARD_STATIONS_CONTENT } from "@/content/u3";
 import { createInitialState, reduceEvent } from "@/domain/session/reducer";
 import type {
   Claim,
+  DishId,
   EvidenceId,
   Filing,
   GameEvent,
@@ -33,11 +35,13 @@ import { BindingScene } from "./components/BindingScene";
 import { BoundaryScene } from "./components/BoundaryScene";
 import { DeskScene } from "./components/DeskScene";
 import { EndingScene } from "./components/EndingScene";
+import { MenuScene } from "./components/MenuScene";
 import { NoiseScene } from "./components/NoiseScene";
 import { Prologue } from "./components/Prologue";
 import { TitleScreen } from "./components/TitleScreen";
 import { U2ResolutionScene } from "./components/U2ResolutionScene";
 import { U3ResolutionScene } from "./components/U3ResolutionScene";
+import { U4ResolutionScene } from "./components/U4ResolutionScene";
 import { WardScene } from "./components/WardScene";
 
 const initialState = createInitialState("pending", "1970-01-01T00:00:00.000Z");
@@ -71,6 +75,16 @@ function announcementFor(state: GameState): string {
     return WARD_STATIONS_CONTENT[state.u3.at].label;
   }
   if (state.phase === "u3Resolved") return "جملهٔ روی برگه محو شد.";
+  if (state.phase === "queue") {
+    return "سرِ میز ایستگاه نشسته‌ای؛ فهرست هنوز باز نشده است.";
+  }
+  if (state.phase === "menu") {
+    return `فهرست باز است. سینی: ${state.u4.picks} قاشق.`;
+  }
+  if (state.phase === "tray") return "سینی در دست توست؛ همان مزه، همان سهمیه.";
+  if (state.phase === "u4Resolved") {
+    return `${U4_RESOLUTION.title} — ${trayLineFor(state.u4.picks, state.u4.done)}`;
+  }
   if (state.phase === "boundary") return "ادامه هنوز ساخته نشده است.";
   if (state.phase === "desk" && state.attempts.length > 0) {
     return "برگه ثبت شد.";
@@ -319,6 +333,43 @@ export function GameClient() {
     send(commands.resolveWard());
   }, [audio, send]);
 
+  // ---- U4 — صف شام، منو، سینی ----
+
+  const sitInQueue = useCallback(() => {
+    audio.door();
+    audio.footstep(0.35, -0.1);
+    send(commands.joinQueue());
+  }, [audio, send]);
+
+  const openMenuBoard = useCallback(() => {
+    audio.dust();
+    send(commands.openMenu());
+  }, [audio, send]);
+
+  const pickDish = useCallback(
+    (dish: DishId) => {
+      audio.stamp();
+      send(commands.pickDish(dish));
+    },
+    [audio, send],
+  );
+
+  // دکمهٔ سینی دو نقش است: پیش از آستانه بی‌اثر (reducer رد می‌کند)،
+  // پس از آستانه سینی را می‌گیرد و فاز tray را باز می‌کند.
+  const takeTrayStep = useCallback(() => {
+    if (state.phase === "menu") {
+      audio.crumple();
+      send(commands.offerTray());
+    } else {
+      audio.penDown();
+      send(commands.takeTray());
+    }
+  }, [audio, send, state.phase]);
+
+  const continueFromU4 = useCallback(() => {
+    send(commands.acknowledgeBoundary());
+  }, [send]);
+
   const changeSettings = useCallback(
     (patch: Partial<Settings>) => {
       send(commands.changeSettings(patch));
@@ -344,6 +395,7 @@ export function GameClient() {
     state.phase !== "u1Resolved" &&
     state.phase !== "u2Resolved" &&
     state.phase !== "u3Resolved" &&
+    state.phase !== "u4Resolved" &&
     state.phase !== "boundary";
 
   return (
@@ -424,7 +476,24 @@ export function GameClient() {
 
       {state.phase === "u3Resolved" ? (
         <U3ResolutionScene
-          onContinue={acknowledgeBoundary}
+          onContinue={sitInQueue}
+          onRestart={restart}
+          onOpenArchive={openArchive}
+        />
+      ) : null}
+
+      {state.phase === "queue" || state.phase === "menu" || state.phase === "tray" ? (
+        <MenuScene
+          state={state}
+          onSit={openMenuBoard}
+          onPick={pickDish}
+          onTakeTray={takeTrayStep}
+        />
+      ) : null}
+
+      {state.phase === "u4Resolved" ? (
+        <U4ResolutionScene
+          onContinue={continueFromU4}
           onRestart={restart}
           onOpenArchive={openArchive}
         />

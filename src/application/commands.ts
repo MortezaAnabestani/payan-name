@@ -1,5 +1,6 @@
 import type {
   Claim,
+  DishId,
   EvidenceId,
   Filing,
   GameEvent,
@@ -76,6 +77,26 @@ export const commands = {
 
   resolveWard(at = now()): GameEvent {
     return { type: "WARD_RESOLVED", at };
+  },
+
+  joinQueue(at = now()): GameEvent {
+    return { type: "QUEUE_JOINED", at };
+  },
+
+  openMenu(at = now()): GameEvent {
+    return { type: "MENU_OPENED", at };
+  },
+
+  pickDish(dish: DishId, at = now()): GameEvent {
+    return { type: "DISH_PICKED", dish, at };
+  },
+
+  offerTray(at = now()): GameEvent {
+    return { type: "TRAY_OFFERED", at };
+  },
+
+  takeTray(at = now()): GameEvent {
+    return { type: "TRAY_TAKEN", at };
   },
 
   changeSettings(settings: Partial<Settings>, at = now()): GameEvent {

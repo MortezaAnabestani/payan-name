@@ -2716,6 +2716,186 @@
   }
 }
 
+/* ---- U4 — منوی بخور و نمیر ---- */
+
+.menuStage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 7vh 20px 16vh;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.menuKicker {
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  color: #9a8a6c;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.menuWhisper {
+  font-size: 12px;
+  color: rgba(232, 219, 192, 0.5);
+  font-style: italic;
+  margin: 8px 0 0;
+  text-align: center;
+}
+
+.menuActs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.menuBoard {
+  list-style: none;
+  margin: 0;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  width: 100%;
+  border: 1px solid rgba(183, 140, 78, 0.35);
+  background: rgba(36, 26, 17, 0.55);
+}
+
+.menuItemWrap {
+  margin: 0;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px dashed rgba(183, 140, 78, 0.4);
+  background: transparent;
+  color: #e8dbc0;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.menuItem:hover {
+  border-color: rgba(224, 181, 110, 0.8);
+  background: rgba(44, 74, 110, 0.18);
+}
+
+.menuItemLabel {
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
+
+.menuItemGloss {
+  font-size: 11px;
+  color: rgba(232, 219, 192, 0.55);
+}
+
+.quotaRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.quotaBar {
+  position: relative;
+  flex: 0 0 140px;
+  height: 10px;
+  border: 1px solid rgba(183, 140, 78, 0.5);
+  overflow: hidden;
+}
+
+.quotaFill {
+  position: absolute;
+  inset: 0;
+  transform-origin: right center;
+  background: linear-gradient(90deg, #b78c4e, #e0b56e);
+  animation: quotaFlash 900ms ease forwards;
+}
+
+@keyframes quotaFlash {
+  0% {
+    transform: scaleX(1);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scaleX(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scaleX(0.12);
+    opacity: 0.35;
+  }
+}
+
+.quotaNote {
+  font-size: 11px;
+  color: rgba(232, 219, 192, 0.55);
+}
+
+.trayList {
+  list-style: inside decimal;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-height: 24px;
+  color: rgba(232, 219, 192, 0.75);
+  font-size: 13px;
+}
+
+.trayLine {
+  padding: 2px 0;
+}
+
+.menuPickAll {
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(224, 181, 110, 0.75);
+}
+
+.menuWaiting {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(232, 219, 192, 0.5);
+}
+
+.menuTaken {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(232, 219, 192, 0.7);
+}
+
+.menuThresholdHint {
+  margin: 0;
+  min-height: 16px;
+  font-size: 11px;
+  color: rgba(232, 219, 192, 0.4);
+}
+
+@media (max-width: 640px) {
+  .menuBoard {
+    grid-template-columns: 1fr;
+  }
+
+  .quotaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .paper,
   .paperWrapEmpty,
@@ -2730,6 +2910,12 @@
   .noisePaperFlash,
   .wardInterlude {
     animation: none !important;
+  }
+
+  .quotaFill {
+    animation: none !important;
+    transform: scaleX(0.12);
+    opacity: 0.35;
   }
 
   .penInvite .penNib {

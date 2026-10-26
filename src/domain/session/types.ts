@@ -150,7 +150,9 @@ export type GameEvent =
   | { type: "SAME_ACT"; station: StationId; at: string }
   | { type: "WARD_RESOLVED"; at: string }
   | { type: "QUEUE_JOINED"; at: string }
+  | { type: "MENU_OPENED"; at: string }
   | { type: "DISH_PICKED"; dish: DishId; at: string }
+  | { type: "TRAY_OFFERED"; at: string }
   | { type: "TRAY_TAKEN"; at: string }
   | { type: "BOUNDARY_ACKNOWLEDGED"; at: string }
   | { type: "SETTINGS_CHANGED"; settings: Partial<Settings>; at: string }

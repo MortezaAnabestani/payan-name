@@ -436,12 +436,12 @@ export function reduceEvent(state: GameState, event: GameEvent): GameState {
   // هیچ پیامدِ افتراقی برای دیگ غذا ثبت نمی‌شود؛ انتخاب فقط آیین است.
 
   if (event.type === "QUEUE_JOINED") {
-    if (state.phase !== "u3Resolved") return state;
-    return withRevision(
-      state,
-      { unit: "U4", phase: "queue" },
-      event.at,
-    );
+    // دروازهٔ بازگشت: از u3Resolved و u4Resolved هر دو پذیرفته می‌شود؛
+    // u4Resolved برای این است که بازیکن بتواند دوباره سرِ صف بنشیند.
+    if (state.phase !== "u3Resolved" && state.phase !== "u4Resolved") {
+      return state;
+    }
+    return withRevision(state, { unit: "U4", phase: "queue" }, event.at);
   }
 
   // ورود به منو از صف؛ یک‌بار که فهرست باز شد، همان فهرست می‌ماند.
