@@ -1,5 +1,6 @@
 export const CONTENT_VERSION = "three-drops-ch1-v1";
-export const SCHEMA_VERSION = 1;
+// v2: وضعیت U4 و رخداد‌های صف/منو/سینی افزوده شد؛ اسناد قدیمی بی‌اعتبار خوانده می‌شوند.
+export const SCHEMA_VERSION = 2;
 export const ATTEMPT_LIMIT = 3;
 
 export type Phase =
@@ -13,6 +14,10 @@ export type Phase =
   | "u2Resolved"
   | "ward"
   | "u3Resolved"
+  | "queue"
+  | "menu"
+  | "tray"
+  | "u4Resolved"
   | "boundary";
 
 export type Claim = "self" | "institution" | "interface";
@@ -21,7 +26,10 @@ export type Filing = "submit" | "conceal" | "tear" | "leave";
 export type EndingId = "file" | "paper" | "ash" | "silence";
 
 /** واحد جاری جلسه. G1/پیش‌درآمد بخشی از U1 شمرده می‌شود. */
-export type UnitId = "U1" | "U2" | "U3";
+export type UnitId = "U1" | "U2" | "U3" | "U4";
+
+/** چهار خوراک فهرست؛ همان توالی بی‌علتِ متن منبع. */
+export type DishId = "ash" | "shirbirinj" | "chelo" | "nanpanir";
 
 /** چهار فضای U3 که درها همه به حیاط بازمی‌گردند. */
 export type StationId = "garden" | "cellar" | "infirmary" | "night";
@@ -57,6 +65,18 @@ export interface SurfaceMark {
 export interface U2State {
   surfaced: SurfaceMark[];
   outcome: U2Outcome | null;
+}
+
+/** وضعیت U4 — «منوی بخور و نمیر» (کاتالیزور تودرتو در U5). */
+export interface U4State {
+  /** شمار انتخاب‌ها؛ بی‌هیچ پیامدِ افتراقی. */
+  picks: number;
+  /** فهرست خوراک انتخاب‌شده، به همان ترتیب انجام. */
+  chosen: DishId[];
+  /** سهمیهٔ کالری ثابت: هر انتخاب فقط آیین است. */
+  quotaMet: boolean;
+  /** سینی پذیرفته شده و گذار به U5 آزاد شده است. */
+  done: boolean;
 }
 
 export interface Settings {
@@ -97,6 +117,7 @@ export interface GameState {
   motifOwner: MotifOwner;
   u2: U2State;
   u3: U3State;
+  u4: U4State;
   interpretation: Interpretation;
   ending: EndingId | null;
   settings: Settings;
@@ -128,6 +149,9 @@ export type GameEvent =
   | { type: "STATION_NOTED"; station: StationId; object: string; at: string }
   | { type: "SAME_ACT"; station: StationId; at: string }
   | { type: "WARD_RESOLVED"; at: string }
+  | { type: "QUEUE_JOINED"; at: string }
+  | { type: "DISH_PICKED"; dish: DishId; at: string }
+  | { type: "TRAY_TAKEN"; at: string }
   | { type: "BOUNDARY_ACKNOWLEDGED"; at: string }
   | { type: "SETTINGS_CHANGED"; settings: Partial<Settings>; at: string }
   | { type: "SESSION_RESET"; sessionId: string; at: string };

@@ -3,6 +3,7 @@ import {
   CONTENT_VERSION,
   SCHEMA_VERSION,
   type Claim,
+  type DishId,
   type EndingId,
   type EvidenceId,
   type Filing,
@@ -78,6 +79,7 @@ export function createInitialState(
       done: false,
       loops: 0,
     },
+    u4: { picks: 0, chosen: [], quotaMet: false, done: false },
     interpretation: {
       claim: null,
       evidence: [],
@@ -129,6 +131,25 @@ export const CLAIM_SENTENCE =
 /** مرحلهٔ محوشدن ادعای تفاوت: ۰ = دست‌نخورده، ۴ = محو. */
 export function claimStageFor(sameActs: number): number {
   return Math.min(CLAIM_STAGES, Math.floor(sameActs / 2));
+}
+
+/** چهار خوراکِ فهرست، به همان توالی بی‌علتِ متن منبع. */
+export const DISHES: readonly DishId[] = [
+  "ash",
+  "shirbirinj",
+  "chelo",
+  "nanpanir",
+];
+
+/** سهمیهٔ کالری «بخور و نمیر»: ثابت و غیرقابل‌مذاکره. */
+export const CALORIE_QUOTA = 1;
+
+/** آستانهٔ پذیرش سینی: تا دو انتخاب نکرده‌ای، سینی به دستت نمی‌آید. */
+export const U4_THRESHOLD = 2;
+
+/** آیا سینی پذیرفته شده و گذار به U5 باز است؟ (منطق محوشوندهٔ U4) */
+export function u4TrayAccepted(picks: number): boolean {
+  return picks >= U4_THRESHOLD;
 }
 
 export function reduceEvent(state: GameState, event: GameEvent): GameState {
@@ -317,7 +338,7 @@ export function reduceEvent(state: GameState, event: GameEvent): GameState {
   }
 
   if (event.type === "BOUNDARY_ACKNOWLEDGED") {
-    if (state.phase !== "u3Resolved") return state;
+    if (state.phase !== "u4Resolved") return state;
     return withRevision(state, { phase: "boundary" }, event.at);
   }
 
@@ -408,6 +429,61 @@ export function reduceEvent(state: GameState, event: GameEvent): GameState {
     if (!state.u3.done || state.u3.at !== "yard") return state;
     if (claimStageFor(state.u3.sameActs) < CLAIM_STAGES) return state;
     return withRevision(state, { phase: "u3Resolved" }, event.at);
+  }
+
+  // ---- U4 — «منوی بخور و نمیر» (کاتالیزور تودرتو در U5) ----
+  // قاعدهٔ محوشونده: هر انتخاب از منو به همان سینی و همان سهمیه می‌رسد.
+  // هیچ پیامدِ افتراقی برای دیگ غذا ثبت نمی‌شود؛ انتخاب فقط آیین است.
+
+  if (event.type === "QUEUE_JOINED") {
+    if (state.phase !== "u3Resolved") return state;
+    return withRevision(
+      state,
+      { unit: "U4", phase: "queue" },
+      event.at,
+    );
+  }
+
+  // ورود به منو از صف؛ یک‌بار که فهرست باز شد، همان فهرست می‌ماند.
+  if (event.type === "MENU_OPENED") {
+    if (state.phase !== "queue") return state;
+    return withRevision(state, { phase: "menu" }, event.at);
+  }
+
+  if (event.type === "DISH_PICKED") {
+    if (state.phase !== "menu") return state;
+    if (!DISHES.includes(event.dish)) return state;
+    const picks = state.u4.picks + 1;
+    // نوار کالری کمی بالا می‌رود و سپس به همان حد بازمی‌گردد:
+    // سهمیه ثابت است، فارغ از این‌که کدام خوراک را برداشته‌ای.
+    return withRevision(
+      state,
+      {
+        u4: {
+          ...state.u4,
+          picks,
+          chosen: [...state.u4.chosen, event.dish],
+          quotaMet: true,
+        },
+      },
+      event.at,
+    );
+  }
+
+  // سینی فقط پس از آستانه به دست می‌آید؛ انتخابِ بیشتر هم همان سینی را می‌دهد.
+  if (event.type === "TRAY_OFFERED") {
+    if (state.phase !== "menu") return state;
+    if (!u4TrayAccepted(state.u4.picks)) return state;
+    return withRevision(state, { phase: "tray" }, event.at);
+  }
+
+  if (event.type === "TRAY_TAKEN") {
+    if (state.phase !== "tray") return state;
+    return withRevision(
+      state,
+      { u4: { ...state.u4, done: true }, phase: "u4Resolved" },
+      event.at,
+    );
   }
 
   if (event.type === "SETTINGS_CHANGED") {
